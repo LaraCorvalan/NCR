@@ -1,0 +1,9 @@
+.exitBtn{
+    background-color: rgba(84,184,72,255);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    width: 70px;
+    height: 30px;
+    font-size: 15px;
+}

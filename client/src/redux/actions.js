@@ -1,12 +1,41 @@
 import axios from "axios";
 
-export function createGame(objeto){
-    return async function (dispatch){
-        let post = await axios.post('http://localhost:3001/videogames', objeto)
-        return dispatch({
-          type: 'CREATE_GAME',
-          payload: post.data,
-        })
+export function getData() {
+  return async function (dispatch) {
+    try {
+      let data = await axios.get("http://localhost:3001/data");
+      let result = data.data;
+      return dispatch({
+        type: "GET_DATA",
+        payload: result,
+      });
+    } catch (error) {
+      console.log(error)
     }
-    
+     
+   
+  };
+}
+
+export function getDetail(id) {
+  return async function (dispatch) {
+    try {
+      let data = await axios.get(`http://localhost:3001/detail/${id}`);
+      let result = data.data;
+      return dispatch({
+        type: "GET_DETAIL",
+        payload: result,
+      });
+    } catch (error) {
+      console.log(error)
+    }
+     
+   
+  };
+}
+
+export function emptyDetail(){
+  return {
+    type: 'EMPTY_DETAIL'
+  }
 }

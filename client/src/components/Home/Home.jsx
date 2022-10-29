@@ -9,8 +9,30 @@ export default function Home() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.data);
   const [filtrados, setFiltrados] = useState(data);
-  console.log(filtrados)
+  // PAGINADO
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage, setPostPerPage] = useState(5);
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentPosts = filtrados.slice(indexOfFirstPost, indexOfLastPost);
+  // const currentPostsOrdenados = filtrados?.slice(
+  //   indexOfFirstPost,
+  //   indexOfLastPost
+  //   );
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = () => {
+    const totalPosts = filtrados?.length;
+    const pageNumber = [];
 
+    for (let i = 1; i <= Math.ceil(totalPosts / postPerPage); i++) {
+      pageNumber.push(i);
+    }
+    console.log(pageNumber);
+    if (pageNumber.includes(currentPage + 1)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  
   useEffect(() => {
     dispatch(getData());
   }, [dispatch]);
@@ -19,12 +41,11 @@ export default function Home() {
     let filter = data.filter(
       (e) =>
         (e.tipo_letras.toUpperCase() === "CA" ||
-        e.tipo_letras.toUpperCase() === "CC") &&
-        (e.moneda === "$" ||
-        e.moneda === "u$s")
-    )
-    setFiltrados( filter );
-  }, [data])
+          e.tipo_letras.toUpperCase() === "CC") &&
+        (e.moneda === "$" || e.moneda === "u$s")
+    );
+    setFiltrados(filter);
+  }, [data]);
 
   // console.log("soy filterrr 2", filtrados);
 
@@ -32,6 +53,24 @@ export default function Home() {
   // setFiltrados(filtrados.filter(e => e.tipo_letras.toUpperCase() === 'CA' && e.tipo_letras.toUpperCase() === 'CC' && e.moneda === '$' && e.moneda === 'u$s'))
   // console.log('soy filterrr 2', filtrados);
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    setPostPerPage(4);
+    paginate();
+  };
+  console.log(postPerPage, "soy postperpage");
+
+  const handleClickBack = (e) => {
+    e.preventDefault();
+    if (currentPage === 2) {
+      setPostPerPage(5);
+    }
+    setCurrentPage(currentPage - 1);
+  };
+  console.log("soy currentPage", currentPage);
+  console.log("soy postPerPage", postPerPage);
+  console.log("soy currentPosts", currentPosts);
+  
   return (
     <div>
       <Navbar />
@@ -42,8 +81,21 @@ export default function Home() {
 
       <div>
         <div className={s.cardContainer}>
-          {filtrados
-            ? filtrados.map((elem, index) => {
+          {
+          postPerPage < 5 ?  (
+            <div>
+              <button
+                className={s.cardBtn}
+                onClick={(e) => {
+                  handleClickBack(e);
+                }}
+              >
+                {"<< Opciones anteriores"}{" "}
+              </button>
+            </div>
+          ) : null}
+          {filtrados && currentPosts
+            ? currentPosts.map((elem, index) => {
                 return (
                   <Link
                     to={`/detail/${elem.n}`}
@@ -63,9 +115,29 @@ export default function Home() {
                   </Link>
                 );
               })
-            : 
-            // AGREGAR LOADER
-            null}
+            : null}
+          <div>
+            {
+              currentPosts?.length < 4 ? 
+              <button
+              disabled
+              className={s.cardBtnDis}
+              onClick={(e) => {
+                handleClick(e);
+              }}
+            >
+              {"Más opciones >>"}{" "}
+            </button> : 
+            <button
+              className={s.cardBtn}
+              onClick={(e) => {
+                handleClick(e);
+              }}
+            >
+              {"Más opciones >>"}{" "}
+            </button>
+            }
+          </div>
         </div>
       </div>
 

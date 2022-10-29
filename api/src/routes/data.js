@@ -19,7 +19,7 @@ router.get('/detail/:id', async (req, res) => {
     try {
         let request = await axios.get("https://api.npoint.io/97d89162575a9d816661") 
         let result = request.data.cuentas 
-        result.map(e => {
+        result.map((e) => {
             console.log(e)
             if(id === e.n){
                 res.status(200).json(e)

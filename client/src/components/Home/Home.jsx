@@ -9,17 +9,12 @@ export default function Home() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.data);
   const [filtrados, setFiltrados] = useState(data);
-  // PAGINADO
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(5);
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   const currentPosts = filtrados.slice(indexOfFirstPost, indexOfLastPost);
-  // const currentPostsOrdenados = filtrados?.slice(
-  //   indexOfFirstPost,
-  //   indexOfLastPost
-  //   );
-  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  
   const paginate = () => {
     const totalPosts = filtrados?.length;
     const pageNumber = [];
@@ -27,7 +22,6 @@ export default function Home() {
     for (let i = 1; i <= Math.ceil(totalPosts / postPerPage); i++) {
       pageNumber.push(i);
     }
-    console.log(pageNumber);
     if (pageNumber.includes(currentPage + 1)) {
       setCurrentPage(currentPage + 1);
     }
@@ -47,18 +41,12 @@ export default function Home() {
     setFiltrados(filter);
   }, [data]);
 
-  // console.log("soy filterrr 2", filtrados);
-
-  // let filter = filtrados.filter(e => e.tipo_letras.toUpperCase() === 'CA' && e.tipo_letras.toUpperCase() === 'CC' && e.moneda === '$' && e.moneda === 'u$s')
-  // setFiltrados(filtrados.filter(e => e.tipo_letras.toUpperCase() === 'CA' && e.tipo_letras.toUpperCase() === 'CC' && e.moneda === '$' && e.moneda === 'u$s'))
-  // console.log('soy filterrr 2', filtrados);
-
+ 
   const handleClick = (e) => {
     e.preventDefault();
     setPostPerPage(4);
     paginate();
   };
-  console.log(postPerPage, "soy postperpage");
 
   const handleClickBack = (e) => {
     e.preventDefault();
@@ -67,9 +55,6 @@ export default function Home() {
     }
     setCurrentPage(currentPage - 1);
   };
-  console.log("soy currentPage", currentPage);
-  console.log("soy postPerPage", postPerPage);
-  console.log("soy currentPosts", currentPosts);
   
   return (
     <div>
@@ -115,7 +100,7 @@ export default function Home() {
                   </Link>
                 );
               })
-            : null}
+            : null }
           <div>
             {
               currentPosts?.length < 4 ? 

@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 export default function Detail() {
   const detalle = useSelector((state) => state.detail);
-  console.log("soy detalle", detalle);
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {

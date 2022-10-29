@@ -13,39 +13,11 @@ const initialState = {
           ...state,
           data: action.payload
         };
-      // case "CREATE_GAME":
-      //   return {
-      //     ...state,
-      //     // games --> [{}, {}, {}, {}]
-      //     videogames: [...state.videogames, action.payload],
-      //   };
-      // case "GET_GAME_BYNAME":
-      //   return {
-      //     ...state,
-      //     videogames: action.payload,
-      //   };
       case "GET_DETAIL":
         return {
           ...state,
           detail: action.payload,
         };
-      // case "GET_GENRES":
-      //   return {
-      //     ...state,
-      //     genres: action.payload,
-      //   }; 
-      // case "FILTER_GAMES":
-      //   return {
-      //     ...state,
-      //     ordenados: action.payload,
-      //   };
-  
-      
-      // case "BORRAR":
-      //   return {
-      //     ...state,
-      //     ordenados: [],
-      //   };
       case "EMPTY_DETAIL":
         return {
           ...state,
